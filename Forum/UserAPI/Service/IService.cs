@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace UserAPI.Repository
+﻿namespace UserAPI.Service
 {
-    public interface IRepository<T>
+    public interface IService<T>
     {
         T GetById(int id);
         void Create(T entity);

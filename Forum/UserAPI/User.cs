@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SharedModels
+namespace UserAPI
 {
     public class User
     {
@@ -14,7 +12,5 @@ namespace SharedModels
         public string Email { get; set; }
         [MaxLength(25)]
         public string Password { get; set; }
-        public IEnumerable<QuestionDto> Questions { get; set; }
-        public IEnumerable<AnswerDto> Answers { get; set; }
     }
 }

@@ -10,6 +10,12 @@ namespace UserAPI
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
+        }
+
         public DbSet<User> Users { get; set; }
     }
 }

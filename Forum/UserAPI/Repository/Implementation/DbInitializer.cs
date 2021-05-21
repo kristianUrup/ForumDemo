@@ -8,28 +8,31 @@ namespace UserAPI.Repository
     {
         public void InitializeDatabase(UserApiContext userContext)
         {
+            if (!userContext.Database.EnsureCreated())
+            {
+                return;
+            }
             User user1 = new User
             {
-                Answers = new List<AnswerDto>(),
+                
                 Email = "harry@gmail.com",
                 Id = 1,
                 Name = "Harry",
                 Password = "12345",
-                Questions = new List<QuestionDto>(),
                 Username = "HarryPotter"
             };
             
             User user2 = new User
             {
-                Answers = new List<AnswerDto>(),
                 Email = "kris@gmail.com",
-                Id = 1,
+                Id= 2,
                 Name = "Kris",
                 Password = "54321",
-                Questions = new List<QuestionDto>(),
                 Username = "KrisMcDonald"
             };
-            userContext.Users.AddRange(new List<User>{user1,user2});
+            userContext.Users.Add(user1);
+            userContext.Users.Add(user2);
+            userContext.SaveChanges();
         }
 
     }
