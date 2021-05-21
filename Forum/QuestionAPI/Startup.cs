@@ -11,6 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using QuestionAPI.Repository;
+using QuestionAPI.Repository.Implementation;
+using UserAPI.Repository;
 
 namespace QuestionAPI
 {
@@ -26,12 +30,17 @@ namespace QuestionAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<QuestionApiContext>(opt => opt.UseSqlite("Data Source=QuestionDatabase.db"));
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "QuestionAPI", Version = "v1" });
             });
+
+            services.AddScoped<IRepository<Question>, QuestionRepository>();
+            
+            services.AddTransient<IDbInitializer, DbInitializer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +53,16 @@ namespace QuestionAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuestionAPI v1"));
             }
 
+            // Initialize the database
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                // Initialize the database
+                var services = scope.ServiceProvider;
+                var dbContext = services.GetService<QuestionApiContext>();
+                var dbInitializer = services.GetService<IDbInitializer>();
+                dbInitializer.InitializeDatabase(dbContext);
+            }
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
