@@ -5,8 +5,8 @@ namespace AnswerAPI.Repository
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetAllByUserId(int id);
-        IEnumerable<T> GetAllByQuestionId(int id);
+        IEnumerable<T> GetAllByUserId(int userId);
+        IEnumerable<T> GetAllByQuestionId(int questionId);
         void Create(T entity);
     }
 }
