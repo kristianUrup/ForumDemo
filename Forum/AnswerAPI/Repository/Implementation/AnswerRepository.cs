@@ -4,14 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnswerAPI.Repository.Implementation
 {
-    public class AnswerRepository: IRepository<Answer>
+    public class AnswerRepository : IRepository<Answer>
     {
-        private AnswerApiContext _ctx;
+        private readonly AnswerApiContext _ctx;
 
         public AnswerRepository(AnswerApiContext ctx)
         {
             _ctx = ctx;
         }
+
+        public IEnumerable<Answer> GetAll()
+        {
+            return _ctx.Answers;
+        }
+
         public IEnumerable<Answer> GetAllByUserId(int userId)
         {
             return _ctx.Answers.Where(answer => answer.UserId == userId);

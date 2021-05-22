@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using QuestionAPI.Repository;
 using QuestionAPI.Repository.Implementation;
 using UserAPI.Repository;
@@ -31,15 +24,15 @@ namespace QuestionAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<QuestionApiContext>(opt => opt.UseSqlite("Data Source=QuestionDatabase.db"));
-            
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "QuestionAPI", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "QuestionAPI", Version = "v1"});
             });
 
             services.AddScoped<IRepository<Question>, QuestionRepository>();
-            
+
             services.AddTransient<IDbInitializer, DbInitializer>();
         }
 
@@ -62,17 +55,14 @@ namespace QuestionAPI
                 var dbInitializer = services.GetService<IDbInitializer>();
                 dbInitializer.InitializeDatabase(dbContext);
             }
-            
-            app.UseHttpsRedirection();
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

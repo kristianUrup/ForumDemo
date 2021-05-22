@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace UserAPI.Repository
+﻿namespace UserAPI.Repository
 {
     public interface IRepository<T>
     {

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
 using SharedModels;
 
 namespace UserAPI.Service
@@ -9,7 +7,7 @@ namespace UserAPI.Service
     {
         public UserDto ConvertToUserDto(User user, IEnumerable<QuestionDto> questions, IEnumerable<AnswerDto> answers)
         {
-            return new UserDto
+            return new()
             {
                 Id = user.Id,
                 Answers = answers,

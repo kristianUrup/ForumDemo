@@ -1,6 +1,4 @@
-﻿using QuestionAPI;
-
-namespace QuestionAPI.Repository
+﻿namespace QuestionAPI.Repository
 {
     public interface IDbInitializer
     {

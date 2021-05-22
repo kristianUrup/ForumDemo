@@ -7,7 +7,7 @@ namespace QuestionAPI.Controllers
 {
     public class QuestionsController : Controller
     {
-        private IRepository<Question> _questionRepo;
+        private readonly IRepository<Question> _questionRepo;
 
         public QuestionsController(IRepository<Question> questionRepo)
         {
@@ -26,7 +26,7 @@ namespace QuestionAPI.Controllers
                 return BadRequest(e);
             }
         }
-        
+
         [HttpGet("/GetByUserId/{userId}")]
         public ActionResult<List<Question>> GetByUserId(int userId)
         {
@@ -41,7 +41,7 @@ namespace QuestionAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]Question question)
+        public IActionResult Create([FromBody] Question question)
         {
             try
             {

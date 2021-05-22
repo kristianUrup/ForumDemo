@@ -2,7 +2,7 @@
 
 namespace AnswerAPI
 {
-    public class AnswerApiContext: DbContext
+    public class AnswerApiContext : DbContext
     {
         public AnswerApiContext(DbContextOptions<AnswerApiContext> options)
             : base(options)
@@ -14,7 +14,9 @@ namespace AnswerAPI
             modelBuilder.Entity<Answer>()
                 .HasKey(a => a.Id);
         }
-
+        
         public DbSet<Answer> Answers { get; set; }
+
+        
     }
 }

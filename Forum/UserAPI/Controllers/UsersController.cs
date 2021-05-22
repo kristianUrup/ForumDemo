@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using SharedModels;
 using UserAPI.Repository;
 
 namespace UserAPI.Controllers
@@ -9,12 +8,13 @@ namespace UserAPI.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private IRepository<User> _userRepository;
+        private readonly IRepository<User> _userRepository;
 
         public UsersController(IRepository<User> userRepository)
         {
             _userRepository = userRepository;
         }
+
         [HttpGet("{id}")]
         public ActionResult<User> GetById(int id)
         {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AnswerAPI.Repository;
-using AnswerAPI.Repository.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnswerAPI.Controllers
@@ -11,17 +10,33 @@ namespace AnswerAPI.Controllers
     [Route("[controller]")]
     public class AnswersController : Controller
     {
-        private IRepository<Answer> _answerRepo;
+        private readonly IRepository<Answer> _answerRepo;
 
         public AnswersController(IRepository<Answer> answerRepo)
         {
             _answerRepo = answerRepo;
         }
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Answer>> GetAll()
+        {
+            try
+            {
+                return Ok(_answerRepo.GetAll());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("/GetAllAnswersByUserId/{userId}")]
         public ActionResult<List<Answer>> GetAllAnswersByUserId(int userId)
         {
             try
             {
+                var result = _answerRepo.GetAllByUserId(userId).ToList();
+                Console.WriteLine(result);
                 return Ok(_answerRepo.GetAllByUserId(userId).ToList());
             }
             catch (Exception e)
@@ -29,12 +44,13 @@ namespace AnswerAPI.Controllers
                 return BadRequest(e);
             }
         }
+
         [HttpGet("/GetAllAnswersByQuestionId/{questionId}")]
-        public ActionResult<Answer> GetAllAnswersByQuestionId(int questionId)
+        public ActionResult<List<Answer>> GetAllAnswersByQuestionId(int questionId)
         {
             try
             {
-                return Ok(_answerRepo.GetAllByQuestionId(questionId));
+                return Ok(_answerRepo.GetAllByQuestionId(questionId).ToList());
             }
             catch (Exception e)
             {

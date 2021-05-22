@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  answerapi:
+    image: ${DOCKER_REGISTRY-}answerapi
+    build:
+      context: .
+      dockerfile: AnswerAPI/Dockerfile
+
+
+  questionapi:
+    image: ${DOCKER_REGISTRY-}questionapi
+    build:
+      context: .
+      dockerfile: QuestionAPI/Dockerfile
+
+  userapi:
+    image: ${DOCKER_REGISTRY-}userapi
+    build:
+      context: .
+      dockerfile: UserAPI/Dockerfile

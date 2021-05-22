@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using SharedModels;
 
 namespace UserAPI.Repository
 {
-    public class UserRepository: IRepository<User>
+    public class UserRepository : IRepository<User>
 
     {
-        private UserApiContext _ctx;
+        private readonly UserApiContext _ctx;
 
         public UserRepository(UserApiContext userApiContext)
         {
             _ctx = userApiContext;
         }
+
         public User GetById(int id)
         {
             return _ctx.Users.FirstOrDefault(user => user.Id == id);
