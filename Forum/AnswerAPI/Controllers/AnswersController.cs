@@ -30,7 +30,7 @@ namespace AnswerAPI.Controllers
             }
         }
 
-        [HttpGet("/GetAllAnswersByUserId/{userId}")]
+        [HttpGet("GetAllAnswersByUserId/{userId}")]
         public ActionResult<List<Answer>> GetAllAnswersByUserId(int userId)
         {
             try
@@ -45,7 +45,7 @@ namespace AnswerAPI.Controllers
             }
         }
 
-        [HttpGet("/GetAllAnswersByQuestionId/{questionId}")]
+        [HttpGet("GetAllAnswersByQuestionId/{questionId}")]
         public ActionResult<List<Answer>> GetAllAnswersByQuestionId(int questionId)
         {
             try

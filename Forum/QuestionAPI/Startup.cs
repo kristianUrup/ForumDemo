@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using QuestionAPI.Repository;
 using QuestionAPI.Repository.Implementation;
+using QuestionAPI.Service;
+using QuestionAPI.Service.Implementation;
 using UserAPI.Repository;
 
 namespace QuestionAPI
@@ -32,6 +36,8 @@ namespace QuestionAPI
             });
 
             services.AddScoped<IRepository<Question>, QuestionRepository>();
+            services.AddScoped<IQuestionService, QuestionService>();
+            
 
             services.AddTransient<IDbInitializer, DbInitializer>();
         }
@@ -55,6 +61,11 @@ namespace QuestionAPI
                 var dbInitializer = services.GetService<IDbInitializer>();
                 dbInitializer.InitializeDatabase(dbContext);
             }
+            
+            Task.Factory.StartNew(() => {
+                var connectionString = Configuration.GetConnectionString("RabbitMQConnectionString");
+                new MessageListener(app.ApplicationServices, connectionString).Start();
+            });
 
             //app.UseHttpsRedirection();
 

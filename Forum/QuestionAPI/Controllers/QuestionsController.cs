@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using QuestionAPI.Service;
+using SharedModels;
 using UserAPI.Repository;
 
 namespace QuestionAPI.Controllers
@@ -8,18 +10,21 @@ namespace QuestionAPI.Controllers
     public class QuestionsController : Controller
     {
         private readonly IRepository<Question> _questionRepo;
+        private IQuestionService _questionService;
 
-        public QuestionsController(IRepository<Question> questionRepo)
+        public QuestionsController(IRepository<Question> questionRepo, IQuestionService questionService)
         {
             _questionRepo = questionRepo;
+            _questionService = questionService;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Question> GetById(int id)
+        public ActionResult<QuestionDto> GetById(int id)
         {
             try
             {
-                return Ok(_questionRepo.GetById(id));
+                Console.WriteLine("hello");
+                return Ok(_questionService.GetById(id));
             }
             catch (Exception e)
             {
@@ -27,7 +32,7 @@ namespace QuestionAPI.Controllers
             }
         }
 
-        [HttpGet("/GetByUserId/{userId}")]
+        [HttpGet("GetByUserId/{userId}")]
         public ActionResult<List<Question>> GetByUserId(int userId)
         {
             try

@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using SharedModels;
 using UserAPI.Repository;
+using UserAPI.Service;
 
 namespace UserAPI.Controllers
 {
@@ -8,19 +10,21 @@ namespace UserAPI.Controllers
     [Route("[controller]")]
     public class UsersController : Controller
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IUserService _userService;
+        private IRepository<User> _userRepository;
 
-        public UsersController(IRepository<User> userRepository)
+        public UsersController(IUserService userService,IRepository<User> userRepository)
         {
+            _userService = userService;
             _userRepository = userRepository;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public ActionResult<UserDto> GetById(int id)
         {
             try
             {
-                return Ok(_userRepository.GetById(id));
+                return Ok(_userService.GetById(id));
             }
             catch (Exception e)
             {
@@ -56,7 +60,7 @@ namespace UserAPI.Controllers
             }
         }
 
-        [HttpDelete("/{id}")]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
             try

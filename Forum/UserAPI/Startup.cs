@@ -5,7 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SharedModels;
 using UserAPI.Repository;
+using UserAPI.Service;
+using UserAPI.Service.Implementation;
+using UserAPI.Service.Messaging;
 
 namespace UserAPI
 {
@@ -27,6 +31,13 @@ namespace UserAPI
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserAPI", Version = "v1"}); });
 
             services.AddScoped<IRepository<User>, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            
+            services.AddScoped<IMessagePublisher, MessagePublisher>((s => 
+            {
+                var connectionString = Configuration.GetConnectionString("RabbitMQConnectionString");
+                return new MessagePublisher(connectionString);
+            }));
 
             services.AddTransient<IDbInitializer, DbInitializer>();
         }
