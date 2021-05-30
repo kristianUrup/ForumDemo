@@ -29,7 +29,7 @@ namespace UserAPI
 
             services.AddControllers();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "UserAPI", Version = "v1"}); });
-
+            
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             

@@ -18,7 +18,7 @@ namespace UserAPI.Controllers
             _userService = userService;
             _userRepository = userRepository;
         }
-
+        
         [HttpGet("{id}")]
         public ActionResult<UserDto> GetById(int id)
         {

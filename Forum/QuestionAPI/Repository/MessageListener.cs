@@ -30,6 +30,7 @@ namespace QuestionAPI.Repository
                 bus.Rpc.Respond<GetQuestionsMessage, List<QuestionDto>>(request => {
                     return HandleGetQuestionsMessage(request).ToList();
                 });
+                
                 lock (this)
                 {
                     Monitor.Wait(this);
